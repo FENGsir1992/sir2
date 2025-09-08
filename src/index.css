@@ -1,24 +1,55 @@
-/* 1. 导入外部字体 (必须在最前面) */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
-/* 2. 引入 Tailwind CSS 的标准指令 */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* 3. 在这里写你自己的全局自定义样式 */
+/* 这里是全局样式和重置 */
 body {
-  font-family: 'Inter', sans-serif;
-  background-image: url('/bj.png');
-  background-attachment: fixed;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+  /* --- 背景样式 --- */
+  background-color: #d5e1ef; /* 图片加载失败时的备用背景色 */
+  background-image: url('/bj.png'); /* <-- 看！我们用了刚刚得到的 URL */
   background-size: cover;
-  background-repeat: no-repeat;
   background-position: center;
+  background-repeat: no-repeat;
+  
+  /* --- 布局样式 --- */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 
-/* 你还可以在这里添加其他的全局样式，比如： */
-/*
-.my-custom-class {
-  @apply bg-blue-500 text-white;
+
+/* 这是你的卡片样式，它会应用到 App.jsx 里的 <div className="card"> */
+.card {
+  background-color: white;
+  padding: 16px;
+  border-radius: 20px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  max-width: 320px;
+  text-align: center;
 }
-*/
+
+.card img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.card .text-content {
+  padding: 16px;
+}
+
+.card h2 {
+  color: #1f314f;
+  font-size: 22px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.card p {
+  color: #7d889e;
+  font-size: 15px;
+  margin-bottom: 16px;
+}

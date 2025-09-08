@@ -1,15 +1,11 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import { HeroUIProvider } from "@heroui/react";
-import App from "./App.tsx";
-import "./index.css";
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App.jsx'
+import './index.css'
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
-	<React.StrictMode>
-		<HeroUIProvider>
-			<main className="text-foreground bg-background">
-				<App />
-			</main>
-		</HeroUIProvider>
-	</React.StrictMode>
-);
+// 注意看这里的感叹号 "!"
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+)

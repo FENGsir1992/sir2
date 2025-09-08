@@ -1,5 +1,4 @@
-
-    {
+{
   "name": "react-vite-ts",
   "private": true,
   "version": "0.0.0",
@@ -13,6 +12,7 @@
   "dependencies": {
     "@heroui/react": "2.8.3",
     "@iconify/react": "latest",
+    "@nextui-org/react": "^2.6.11",
     "@tailwindcss/postcss": "4.1.11",
     "@tailwindcss/vite": "4.1.11",
     "framer-motion": "^11.18.2",
@@ -30,10 +30,9 @@
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "@vitejs/plugin-react": "^4.3.4",
-    "tailwindcss": "4.1.11",
     "postcss": "8.5.6",
+    "tailwindcss": "4.1.11",
     "typescript": "5.7.3",
     "vite": "^6.0.11"
   }
 }
-    
