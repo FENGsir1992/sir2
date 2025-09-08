@@ -1,0 +1,24 @@
+/* 1. 导入外部字体 (必须在最前面) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* 2. 引入 Tailwind CSS 的标准指令 */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 3. 在这里写你自己的全局自定义样式 */
+body {
+  font-family: 'Inter', sans-serif;
+  background-image: url('/bj.png');
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* 你还可以在这里添加其他的全局样式，比如： */
+/*
+.my-custom-class {
+  @apply bg-blue-500 text-white;
+}
+*/
