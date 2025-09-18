@@ -1,6 +1,6 @@
-node_modules
 node_modules/
 dist/
+logs/
 *.log
 *.tgz
 .env.local
@@ -10,3 +10,6 @@ backend/logs/
 backend/uploads/
 backend/certs/
 backend/env.local
+cloudflared.exe
+cpolar.exe
+ngrok.exe
