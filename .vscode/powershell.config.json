@@ -1,0 +1,38 @@
+{
+    "powerShellDefaultVersion": "7.4.5",
+    "powerShellAdditionalExePaths": {
+        "PowerShell 7 (Portable)": "C:/Users/Administrator/pwsh74/pwsh.exe"
+    },
+    "promptToUpdatePowerShell": false,
+    "enableTerminalIntegration": true,
+    "integratedConsole": {
+        "showOnStartup": false,
+        "focusConsoleOnExecute": true,
+        "useLegacyReadLine": false,
+        "suppressStartupBanner": true
+    },
+    "debugging": {
+        "createTemporaryIntegratedConsole": false
+    },
+    "codeFormatting": {
+        "preset": "OTBS",
+        "openBraceOnSameLine": true,
+        "newLineAfterOpenBrace": true,
+        "newLineAfterCloseBrace": true,
+        "whitespaceBeforeOpenBrace": true,
+        "whitespaceBeforeOpenParen": true,
+        "whitespaceAroundOperator": true,
+        "whitespaceAfterSeparator": true,
+        "ignoreOneLineBlock": true,
+        "alignPropertyValuePairs": true,
+        "useCorrectCasing": true
+    },
+    "scriptAnalysis": {
+        "enable": true,
+        "settingsPath": ""
+    },
+    "helpCompletion": "BlockComment",
+    "consoleReadLine": {
+        "enableBackgroundColor": false
+    }
+}

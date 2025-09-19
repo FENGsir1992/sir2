@@ -1,0 +1,77 @@
+{
+	"terminal.integrated.defaultProfile.windows": "PowerShell 7 (Portable)",
+	"terminal.integrated.automationProfile.windows": {
+		"path": "C:/Users/Administrator/pwsh74/pwsh.exe",
+		"args": ["-NoLogo", "-NoProfile", "-ExecutionPolicy", "Bypass"]
+	},
+	"terminal.integrated.shellIntegration.enabled": true,
+	"terminal.integrated.profiles.windows": {
+		"PowerShell 7 (Portable)": {
+			"path": "C:/Users/Administrator/pwsh74/pwsh.exe",
+			"args": ["-NoLogo", "-ExecutionPolicy", "Bypass"]
+		},
+		"Command Prompt": {
+			"path": "C:/Windows/System32/cmd.exe",
+			"args": ["/d"]
+		}
+	},
+	"terminal.external.windowsExec": "C:/Users/Administrator/pwsh74/pwsh.exe",
+	"terminal.integrated.useWslProfiles": false,
+	"terminal.integrated.tabs.enabled": true,
+	"terminal.integrated.inheritEnv": true,
+	"terminal.integrated.allowWorkspaceShell": true,
+	"terminal.integrated.commandsToSkipShell": [],
+	"npm.packageManager": "npm",
+	"npm.terminal": "PowerShell 7 (Portable)",
+	"git.terminalAuthentication": false,
+	"git.autofetch": false,
+	"git.useIntegratedTerminal": true,
+	"git.terminal.shellArgs.windows": ["-NoLogo", "-NoProfile", "-ExecutionPolicy", "Bypass"],
+	"terminal.integrated.persistentSessionReviveProcess": "onExitAndWindowClose",
+	"terminal.integrated.showExitAlert": false,
+	"debug.terminal.clearBeforeReusing": true,
+	"debug.console.openDebugViewer": false,
+	"debug.internalConsoleOptions": "neverOpen",
+	"extensions.terminal.defaultProfile": "PowerShell 7 (Portable)",
+	"terminal.integrated.fontFamily": "Consolas, 'Courier New', monospace",
+	"terminal.integrated.fontSize": 14,
+	"terminal.integrated.lineHeight": 1.2,
+	"terminal.integrated.cursorStyle": "block",
+	"terminal.integrated.cursorBlinking": false,
+	"terminal.integrated.scrollback": 10000,
+	"terminal.integrated.confirmOnExit": "never",
+	"terminal.integrated.enableMultiLinePasteWarning": false,
+	"terminal.integrated.rightClickBehavior": "paste",
+	"terminal.integrated.copyOnSelection": true,
+	"terminal.integrated.fastScrollSensitivity": 5,
+	"task.autoDetect": "off",
+	"task.saveBeforeRun": "always",
+	"task.showDecorations": true,
+	"terminal.integrated.automationShell.windows": "C:/Users/Administrator/pwsh74/pwsh.exe",
+	"terminal.integrated.defaultLocation": "editor",
+	"powershell.powerShellDefaultVersion": "PowerShell 7 (Portable)",
+	"powershell.powerShellAdditionalExePaths": {
+		"PowerShell 7 (Portable)": "C:/Users/Administrator/pwsh74/pwsh.exe"
+	},
+	"powershell.enableTerminalIntegration": true,
+	"powershell.integratedConsole.showOnStartup": false,
+	"powershell.integratedConsole.focusConsoleOnExecute": true,
+	"npm.enableRunFromFolder": true,
+	"npm.runSilent": false,
+	"typescript.preferences.includePackageJsonAutoImports": "auto",
+	"extensions.autoUpdate": "onlyEnabledExtensions",
+	"terminal.integrated.env.windows": {
+		"SHELL": "C:/Users/Administrator/pwsh74/pwsh.exe",
+		"PSExecutionPolicyPreference": "Bypass",
+		"COMSPEC": "C:/Users/Administrator/pwsh74/pwsh.exe"
+	},
+	"terminal.integrated.shell.windows": "C:/Users/Administrator/pwsh74/pwsh.exe",
+	"terminal.integrated.shellArgs.windows": ["-NoLogo", "-NoProfile", "-ExecutionPolicy", "Bypass"],
+	"terminal.integrated.sendKeybindingsToShell": true,
+	"terminal.integrated.cwd": "${workspaceFolder}",
+	"workbench.terminal.integrated.defaultProfile.windows": "PowerShell 7 (Portable)",
+	"accessibility.signals.terminalBell": {
+		"sound": "off"
+	},
+	"terminal.integrated.enableVisualBell": false
+}

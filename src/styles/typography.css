@@ -1,0 +1,53 @@
+/* 即刻AI - 高级科技艺术字 */
+.sci-fi-text {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  font-family: 'Microsoft YaHei', 'PingFang SC', 'Hiragino Sans GB', 'Arial Black', sans-serif;
+  font-weight: 900;
+  font-size: 1.5rem;
+  letter-spacing: 0.15em;
+  background: linear-gradient(135deg, 
+    #4A90E2 0%,     /* 深蓝 */
+    #7B68EE 25%,    /* 中紫蓝 */
+    #00CED1 50%,    /* 暗青色 */
+    #4169E1 75%,    /* 皇家蓝 */
+    #1E90FF 100%    /* 道奇蓝 */
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.sci-fi-char {
+  display: inline-block;
+  position: relative;
+}
+
+/* 即刻两字 - 深邃科技蓝 */
+.sci-fi-char:nth-child(1),
+.sci-fi-char:nth-child(2) {
+  background: linear-gradient(135deg, 
+    #2E5BBA 0%,     /* 深科技蓝 */
+    #4A90E2 30%,    /* 亮科技蓝 */
+    #00BFFF 60%,    /* 深天蓝 */
+    #1E90FF 100%    /* 道奇蓝 */
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* AI两字 - 高级银蓝渐变 */
+.sci-fi-highlight {
+  background: linear-gradient(135deg, 
+    #708090 0%,     /* 石板灰 */
+    #4682B4 25%,    /* 钢蓝 */
+    #5F9EA0 50%,    /* 军校蓝 */
+    #6495ED 75%,    /* 矢车菊蓝 */
+    #87CEEB 100%    /* 天蓝 */
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}

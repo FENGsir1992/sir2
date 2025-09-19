@@ -1,0 +1,17 @@
+{
+  "status": "running",
+  "publicIP": "74.50.96.175",
+  "localIP": "192.168.0.100",
+  "services": {
+    "backend": {
+      "url": "http://192.168.0.100:3001",
+      "status": "running"
+    },
+    "frontend": {
+      "url": "http://192.168.0.100:5173",
+      "status": "running"
+    }
+  },
+  "environment": "development",
+  "vpnMode": true
+}

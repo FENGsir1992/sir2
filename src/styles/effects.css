@@ -1,0 +1,184 @@
+/* Hero 背景动态渐变横竖条 */
+.hero-bars { pointer-events: none; }
+.hero-bars .bar-h, .hero-bars .bar-v {
+  position: absolute;
+  filter: blur(8px);
+  opacity: 0.25;
+}
+.hero-bars .bar-h {
+  height: 10px;
+  width: 120%;
+  left: -10%;
+  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.45) 50%, rgba(255,255,255,0) 100%);
+  animation: slideH 6s linear infinite;
+}
+.hero-bars .bar-v {
+  width: 10px;
+  height: 140%;
+  top: -20%;
+  background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.45) 50%, rgba(255,255,255,0) 100%);
+  animation: slideV 7s linear infinite;
+}
+@keyframes slideH { from { top: 10%; } to { top: 90%; } }
+@keyframes slideV { from { left: 20%; } to { left: 80%; } }
+
+/* 涟漪效果 */
+.ripple-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.ripple {
+  position: absolute;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  animation: rippleExpand 8s ease-out infinite;
+}
+
+.ripple:nth-child(1) {
+  top: 20%;
+  left: 15%;
+  width: 100px;
+  height: 100px;
+  animation-delay: 0s;
+}
+
+.ripple:nth-child(2) {
+  top: 60%;
+  right: 20%;
+  width: 150px;
+  height: 150px;
+  animation-delay: 2s;
+}
+
+.ripple:nth-child(3) {
+  bottom: 30%;
+  left: 30%;
+  width: 80px;
+  height: 80px;
+  animation-delay: 4s;
+}
+
+.ripple:nth-child(4) {
+  top: 40%;
+  right: 40%;
+  width: 120px;
+  height: 120px;
+  animation-delay: 6s;
+}
+
+@keyframes rippleExpand {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+/* 移除炫彩背景 - 保留类名但清空样式 */
+.hue-flow-bg {
+  /* 背景已移除 */
+}
+
+/* 金色流光特效（容器完全静止，流光在伪元素中移动，避免"框"位移感） */
+.gold-flow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden; /* 固定容器边界，不随动 */
+}
+.gold-flow::before {
+  content: "";
+  position: absolute;
+  /* 放大覆盖范围，避免边界造成"框在移动"的错觉 */
+  inset: -40%;
+  background-image: linear-gradient(135deg,
+    rgba(255,215,0,0.0) 0%, rgba(255,215,0,0.04) 35%, rgba(255,215,0,0.12) 50%, rgba(255,215,0,0.04) 65%, rgba(255,215,0,0.0) 100%
+  );
+  background-repeat: no-repeat;
+  background-size: 300% 300%;
+  background-position: 0% 0%;
+  animation: goldFlowPos 20s linear infinite;
+  will-change: background-position;
+}
+@keyframes goldFlowPos {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 100% 100%; }
+}
+
+/* 增强的渐变条动画 */
+.enhanced-bars .bar-h {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 215, 0, 0) 0%,
+    rgba(255, 215, 0, 0.3) 20%,
+    rgba(255, 193, 7, 0.5) 50%,
+    rgba(255, 215, 0, 0.3) 80%,
+    rgba(255, 215, 0, 0) 100%
+  );
+  animation: enhancedSlideH 8s linear infinite;
+  filter: blur(6px);
+}
+
+.enhanced-bars .bar-v {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 215, 0, 0) 0%,
+    rgba(255, 215, 0, 0.3) 20%,
+    rgba(255, 193, 7, 0.5) 50%,
+    rgba(255, 215, 0, 0.3) 80%,
+    rgba(255, 215, 0, 0) 100%
+  );
+  animation: enhancedSlideV 10s linear infinite;
+  filter: blur(6px);
+}
+
+@keyframes enhancedSlideH {
+  0% { 
+    top: -10%; 
+    opacity: 0;
+    transform: scaleX(0.5);
+  }
+  20% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  80% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  100% { 
+    top: 110%; 
+    opacity: 0;
+    transform: scaleX(0.5);
+  }
+}
+
+@keyframes enhancedSlideV {
+  0% { 
+    left: -10%; 
+    opacity: 0;
+    transform: scaleY(0.5);
+  }
+  20% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+  80% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+  100% { 
+    left: 110%; 
+    opacity: 0;
+    transform: scaleY(0.5);
+  }
+}

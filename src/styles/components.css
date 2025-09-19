@@ -1,0 +1,340 @@
+/* 火爆角标效果 */
+.hot-badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: white;
+  background: linear-gradient(135deg, #ff3d71 0%, #ff8a00 50%, #ffd300 100%);
+  border-radius: 10px 10px 10px 0;
+  box-shadow: 0 6px 20px rgba(255, 72, 0, 0.35), 0 0 18px rgba(255, 212, 0, 0.4) inset;
+  overflow: hidden;
+}
+
+.hot-badge::after {
+  content: "";
+  position: absolute;
+  top: -150%;
+  left: -150%;
+  width: 300%;
+  height: 300%;
+  background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.35), rgba(255,255,255,0) 40%),
+              linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0) 70%);
+  animation: hotShine 2.8s linear infinite;
+}
+
+@keyframes hotShine {
+  0% { transform: translateX(-30%) translateY(-20%) rotate(0deg); }
+  100% { transform: translateX(30%) translateY(20%) rotate(1turn); }
+}
+
+/* 导航菜单彩色渐变边框与内衬 */
+.nav-chip {
+  position: relative;
+  display: inline-flex;
+  border-radius: 12px;
+  padding: 2px; /* 边框厚度 */
+  /* 参考图风格：蓝紫到粉的光泽边框 */
+  background: linear-gradient(140deg, #7c6cf7 0%, #5ec5ff 40%, #ff7aa2 100%);
+  box-shadow: 0 2px 10px rgba(124,108,247,0.25), 0 0 0 1px rgba(255,255,255,0.2) inset;
+}
+.nav-chip::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  /* 细白描边，增强干净度 */
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.85);
+  pointer-events: none;
+}
+.nav-chip-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 10px;
+  padding: 2px 10px; /* 紧凑高度 */
+  font-size: 0.9rem; /* 缩小两个字号 */
+  font-weight: 400; /* 取消加粗 */
+  /* 更清透的玻璃高光 */
+  background: radial-gradient(120% 120% at 30% 10%, rgba(255,255,255,0.65) 0%, rgba(255,255,255,0.45) 30%, rgba(255,255,255,0.28) 60%, rgba(255,255,255,0.18) 100%),
+              linear-gradient(180deg, rgba(255,255,255,0.38) 0%, rgba(255,255,255,0.28) 60%, rgba(255,255,255,0.18) 100%);
+  backdrop-filter: saturate(160%) blur(4px);
+  -webkit-backdrop-filter: saturate(160%) blur(4px);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.85) inset, 0 -1px 6px rgba(255,122,162,0.08) inset, 0 4px 10px rgba(0,0,0,0.04);
+  border: 1px solid rgba(255,255,255,0.7);
+  position: relative;
+}
+.nav-chip-inner::before {
+  /* 顶部白色高光带，增强通透与质感 */
+  content: "";
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  top: 2px;
+  height: 40%;
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,255,255,0.0));
+  pointer-events: none;
+}
+
+/* 叠加在导航芯片右上角的火爆角标 */
+.hot-on-chip {
+  position: absolute;
+  top: -12px;   /* 继续向上偏移 */
+  right: -18px; /* 继续向右偏移 */
+}
+
+/* 放大角标字号 */
+.hot-badge--lg {
+  font-size: 0.8rem; /* 缩小一个字号 */
+}
+
+/* 按钮尺寸减半（不改变字体大小） */
+.hot-badge--half {
+  padding: 3px 6px;
+  border-radius: 8px 8px 8px 0;
+}
+
+/* 再缩小两倍（基于当前尺寸再 *0.5） */
+.hot-badge--quarter {
+  transform: scale(0.7); /* 由0.5提升到0.7，整体稍放大 */
+  transform-origin: top right;
+}
+
+/* 发光 Chip 效果 */
+.glow-chip {
+  box-shadow: 0 0 0 0 rgba(34,211,238,0.6), 0 0 24px rgba(34,211,238,0.45);
+  animation: glowPulse 2.2s ease-in-out infinite;
+}
+@keyframes glowPulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(34,211,238,0.5), 0 0 24px rgba(34,211,238,0.35); }
+  50% { box-shadow: 0 0 0 6px rgba(34,211,238,0.12), 0 0 36px rgba(34,211,238,0.55); }
+}
+
+/* 简洁边框容器 */
+.tech-border-box {
+  position: relative;
+  border-radius: 12px;
+  padding: 2px;
+  background: transparent;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.tech-border-box-inner {
+  position: relative;
+  border-radius: 10px;
+  background: transparent;
+  z-index: 1;
+}
+
+/* ===== Workflow Card (reference mock) precise sizing ===== */
+.wz-store-card {
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(17, 24, 39, 0.06);
+  position: relative;
+  overflow: hidden;
+}
+.wz-store-card.is-favorited {
+  box-shadow: 0 6px 18px rgba(239, 68, 68, 0.25);
+}
+.wz-store-card.is-favorited .wz-store-card__cover {
+  background: rgba(239, 68, 68, 0.35);
+}
+.wz-store-card__cover {
+  position: relative;
+  width: 100%;
+  height: auto; /* 高度跟随内部按比例渲染 */
+  background: rgba(139, 92, 246, 0.18);
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  padding: 2px;
+  padding-bottom: 0;
+}
+
+.wz-store-card__cover-inner {
+  width: 100%;
+  /* 强制固定为 1920x1080（16:9）比例 */
+  aspect-ratio: 16/9;
+  background: linear-gradient(135deg, #d8b4fe 0%, #f0abfc 50%, #f9a8d4 100%);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+.wz-store-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: opacity .25s ease;
+}
+.wz-store-card__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity .2s ease;
+  pointer-events: none; /* 不阻挡点击 */
+}
+.wz-store-card__cover-inner.is-hover .wz-store-card__video {
+  opacity: 1;
+}
+.wz-store-card__cover-inner.is-hover .wz-store-card__img {
+  opacity: 0;
+}
+.wz-store-card__body {
+  padding: 8px 10px 10px 10px;
+}
+.wz-store-card__title {
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: normal;
+  color: #1f2937;
+  margin-top: 6px; /* 向下移动一些 */
+  min-height: 44px; /* 两行 */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.wz-store-card__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+  font-size: 12px;
+  color: #6b7280;
+}
+.wz-store-card__btn {
+  height: 32px;
+  padding: 0 10px;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 6px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 0.2s ease-in-out;
+}
+
+.wz-store-card__btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.wz-badge-price {
+  position: absolute;
+  top: 0;      /* 紧贴封面右上角 */
+  right: 0;
+  z-index: 3;  /* 保证在封面内容之上 */
+}
+.wz-badge-vip {
+  position: absolute;
+  top: 0;     /* 紧贴封面左上角 */
+  left: 0;
+  z-index: 3;  /* 保证在封面内容之上 */
+}
+
+.wz-badge-vip > div {
+  border-radius: 12px; /* 四个角统一圆角 */
+}
+
+.wz-badge-price > div {
+  border-radius: 12px; /* 四个角统一圆角 */
+}
+
+/* 角标文字立体阴影效果 */
+.wz-badge-vip > div,
+.wz-badge-price > div {
+  text-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.18),
+    0 2px 1px rgba(0, 0, 0, 0.18),
+    0 0 2px rgba(0, 0, 0, 0.2);
+  -webkit-text-stroke: 0.3px rgba(0, 0, 0, 0.22);
+}
+
+/* 角标 3D 立体外阴影与高光（适配左右两端） */
+.wz-badge-vip > div,
+.wz-badge-price > div {
+  position: relative;
+  /* 外部投影 + 轻微抬起感 + 内部高光/暗边 */
+  box-shadow:
+    0 2px 0 rgba(0, 0, 0, 0.18),
+    0 10px 16px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.18);
+  /* 兼容性更好的投影增强 */
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.12));
+}
+
+/* 顶部高光，使色块更有体积感 */
+.wz-badge-vip > div::before,
+.wz-badge-price > div::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 58%);
+  mix-blend-mode: soft-light;
+}
+
+/* 底部软阴影，增强悬浮的 3D 感 */
+.wz-badge-vip > div::after,
+.wz-badge-price > div::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -8px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(50% 80% at 50% 0%, rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0));
+  pointer-events: none;
+}
+
+/* 依据左右位置分别添加侧边内高光与暗边，增强立体边缘 */
+.wz-badge-vip > div {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 22%), /* 左侧内高光 */
+    linear-gradient(to left, rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0) 28%);        /* 右侧内暗边 */
+  background-blend-mode: overlay, normal;
+}
+.wz-badge-price > div {
+  background-image:
+    linear-gradient(to left, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 22%), /* 右侧内高光 */
+    linear-gradient(to right, rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0) 28%);        /* 左侧内暗边 */
+  background-blend-mode: overlay, normal;
+}
+
+/* 首页 Hero 整体左移 10px（最高优先级） */
+.home-hero-shift {
+  position: relative;
+  left: -45px !important;
+}
+
+/* 首页内容容器左右对齐：
+   左对齐 Hero 左侧文案(-45px)，右对齐右侧统计卡(+100px)
+   仅在中等及以上屏幕应用，避免小屏溢出 */
+@media (min-width: 768px) {
+  .home-align-wide { }
+}
+
+/* 已回退：home-stretch-30 不再使用 */
+
+/* 每日推荐模块专用：左右各外扩 30px（桌面端），通过增大最大宽度并保持居中 */
+@media (min-width: 768px) {
+  .daily-stretch-30 {
+    max-width: calc(1280px + 100px) !important; /* 再向两侧扩展，总宽+100px */
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+/* 首页内容整体右移 100px（在当前基础上整体偏移） */
+.home-shift-right-100 {
+  transform: translateX(100px) !important;
+}

@@ -1,0 +1,12 @@
+{
+    "recommendations": [
+        "ms-vscode.powershell",
+        "ms-vscode.vscode-json",
+        "bradlc.vscode-tailwindcss",
+        "esbenp.prettier-vscode",
+        "ms-vscode.vscode-typescript-next"
+    ],
+    "unwantedRecommendations": [
+        "ms-vscode.powershell-preview"
+    ]
+}

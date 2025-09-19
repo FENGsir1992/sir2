@@ -1,0 +1,19 @@
+{
+	"terminal.integrated.defaultProfile.windows": "PowerShell 7 (Portable)",
+	"terminal.integrated.profiles.windows": {
+		"PowerShell 7 (Portable)": {
+			"path": "C:/Users/Administrator/pwsh74/pwsh.exe",
+			"args": ["-NoLogo"]
+		}
+	},
+	"terminal.integrated.shellIntegration.enabled": true,
+	"terminal.integrated.persistentSessionReviveProcess": "onExitAndWindowClose",
+	"terminal.integrated.showExitAlert": false,
+	"terminal.integrated.confirmOnExit": "never",
+	"powershell.powerShellDefaultVersion": "PowerShell 7 (Portable)",
+	"powershell.powerShellAdditionalExePaths": {
+		"PowerShell 7 (Portable)": "C:/Users/Administrator/pwsh74/pwsh.exe"
+	}
+}
+
+
