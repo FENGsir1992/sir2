@@ -4,6 +4,7 @@ set -euo pipefail
 # 通用部署脚本模板（复制到服务器 /usr/local/bin/deploy-jr.sh 使用）
 
 REPO_URL="git@github.com:FENGsir1992/sir2.git"
+REPO_URL_MIRROR="${JR_REPO_MIRROR_URL:-https://kgithub.com/FENGsir1992/sir2.git}"
 REPO_DIR="/www/wwwroot/jr-app-repo"
 APP_DIR="/www/wwwroot/jr-app"
 RELEASES_DIR="${APP_DIR}/releases"
@@ -32,7 +33,7 @@ domain_health_ok(){
   [[ "$code" == "200" ]]
 }
 
-# 1) 拉取最新代码（首次采用稀疏克隆并排除大视频）
+# 1) 拉取最新代码（首次采用稀疏克隆并排除大视频；存在则尝试 fetch，失败切换镜像并重试）
 if [ ! -d "${REPO_DIR}/.git" ]; then
   log "Clone repo (sparse)"
   git clone --depth=1 --filter=blob:none --sparse "${REPO_URL}" "${REPO_DIR}"
@@ -41,7 +42,12 @@ if [ ! -d "${REPO_DIR}/.git" ]; then
   git sparse-checkout set '/*' ':(exclude)backend/src/uploads/videos/**'
 else
   cd "${REPO_DIR}"
-  git fetch --depth=1 origin main || git fetch --all || true
+  # 优先使用已有 origin，拉取超时/失败时切镜像重试
+  if ! timeout -k 5 90 git -c http.lowSpeedLimit=1000 -c http.lowSpeedTime=30 fetch --depth=1 origin main; then
+    warn "origin fetch failed, try mirror: ${REPO_URL_MIRROR}"
+    git remote set-url origin "${REPO_URL_MIRROR}" || true
+    timeout -k 5 90 git -c http.lowSpeedLimit=1000 -c http.lowSpeedTime=30 fetch --depth=1 origin main || true
+  fi
   git reset --hard origin/main
 fi
 
