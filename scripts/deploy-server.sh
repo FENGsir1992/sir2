@@ -18,10 +18,54 @@ err(){ echo -e "[\033[31mERR \033[0m] $*" >&2; }
 
 # 可选通知（POST JSON 到 JR_NOTIFY_URL）
 NOTIFY_URL="${JR_NOTIFY_URL:-}"
+NOTIFY_DING_SECRET="${JR_NOTIFY_DING_SECRET:-}"
+NOTIFY_DEBUG="${JR_NOTIFY_DEBUG:-}"
+NOTIFY_LOG="${JR_NOTIFY_LOG:-/root/jr-notify.log}"
+
 notify(){
   local status="$1"; shift || true
   local message="$*"
-  if [ -n "$NOTIFY_URL" ]; then
+  [ -n "$NOTIFY_URL" ] || return 0
+
+  # DingTalk 特殊签名
+  if echo "$NOTIFY_URL" | grep -q 'oapi.dingtalk.com/robot/send'; then
+    local ts sig str
+    if command -v date >/dev/null 2>&1 && date +%s%N >/dev/null 2>&1; then
+      ts=$(( $(date +%s%N) / 1000000 ))
+    else
+      ts=$(($(date +%s) * 1000))
+    fi
+    if [ -n "$NOTIFY_DING_SECRET" ]; then
+      str="${ts}\n${NOTIFY_DING_SECRET}"
+      sig=$(printf "%s" "$str" | openssl dgst -sha256 -hmac "$NOTIFY_DING_SECRET" -binary | openssl base64 -A)
+      # URL encode for + / =
+      sig=${sig//+/%2B}; sig=${sig//\//%2F}; sig=${sig//=/%3D}
+      NOTIFY_URL="${NOTIFY_URL}&timestamp=${ts}&sign=${sig}"
+    fi
+    local text="【JR 发布通知】status=${status}\nrelease=${REL_DIR}\ntime=$(date -Iseconds)\n${message}"
+    if [ "$NOTIFY_DEBUG" = "1" ]; then
+      echo "[notify] url=$NOTIFY_URL" >> "$NOTIFY_LOG"
+      echo "[notify] payload markdown title=JR 发布" >> "$NOTIFY_LOG"
+      curl -s -m 6 -H 'Content-Type: application/json' -X POST \
+        -d "{\"msgtype\":\"markdown\",\"markdown\":{\"title\":\"JR 发布\",\"text\":\"${text//\"/\\\"}\"}}" \
+        "$NOTIFY_URL" | tee -a "$NOTIFY_LOG" >/dev/null || true
+      echo >> "$NOTIFY_LOG"
+    else
+      curl -s -m 6 -H 'Content-Type: application/json' -X POST \
+        -d "{\"msgtype\":\"markdown\",\"markdown\":{\"title\":\"JR 发布\",\"text\":\"${text//\"/\\\"}\"}}" \
+        "$NOTIFY_URL" >/dev/null 2>&1 || true
+    fi
+    return 0
+  fi
+
+  # 通用 JSON 通知
+  if [ "$NOTIFY_DEBUG" = "1" ]; then
+    echo "[notify] generic url=$NOTIFY_URL" >> "$NOTIFY_LOG"
+    curl -s -m 5 -H 'Content-Type: application/json' -X POST \
+      -d "{\"status\":\"${status}\",\"release\":\"${REL_DIR}\",\"time\":\"$(date -Iseconds)\",\"message\":\"${message}\"}" \
+      "$NOTIFY_URL" | tee -a "$NOTIFY_LOG" >/dev/null || true
+    echo >> "$NOTIFY_LOG"
+  else
     curl -s -m 5 -H 'Content-Type: application/json' -X POST \
       -d "{\"status\":\"${status}\",\"release\":\"${REL_DIR}\",\"time\":\"$(date -Iseconds)\",\"message\":\"${message}\"}" \
       "$NOTIFY_URL" >/dev/null 2>&1 || true
