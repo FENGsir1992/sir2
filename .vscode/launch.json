@@ -1,0 +1,89 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "PowerShell: 启动当前文件",
+            "type": "PowerShell",
+            "request": "launch",
+            "script": "${file}",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "createTemporaryIntegratedConsole": false,
+            "args": [],
+            "powerShellAdditionalExePaths": {
+                "PowerShell 7 (Portable)": "C:/Users/Administrator/pwsh74/pwsh.exe"
+            }
+        },
+        {
+            "name": "PowerShell: 启动 Backend 服务器",
+            "type": "PowerShell",
+            "request": "launch",
+            "script": "${workspaceFolder}/backend/dist/server.js",
+            "cwd": "${workspaceFolder}/backend",
+            "console": "integratedTerminal",
+            "createTemporaryIntegratedConsole": false,
+            "args": [],
+            "powerShellAdditionalExePaths": {
+                "PowerShell 7 (Portable)": "C:/Users/Administrator/pwsh74/pwsh.exe"
+            }
+        },
+        {
+            "name": "PowerShell: 运行前端开发服务器",
+            "type": "PowerShell",
+            "request": "launch",
+            "script": "npm run dev",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "createTemporaryIntegratedConsole": false,
+            "powerShellAdditionalExePaths": {
+                "PowerShell 7 (Portable)": "C:/Users/Administrator/pwsh74/pwsh.exe"
+            }
+        },
+        {
+            "name": "PowerShell: 运行后端开发服务器",
+            "type": "PowerShell",
+            "request": "launch",
+            "script": "npm run dev",
+            "cwd": "${workspaceFolder}/backend",
+            "console": "integratedTerminal",
+            "createTemporaryIntegratedConsole": false,
+            "powerShellAdditionalExePaths": {
+                "PowerShell 7 (Portable)": "C:/Users/Administrator/pwsh74/pwsh.exe"
+            }
+        },
+        {
+            "name": "Node.js: 调试后端服务器 (通过 PowerShell)",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceFolder}/backend/dist/server.js",
+            "cwd": "${workspaceFolder}/backend",
+            "console": "integratedTerminal",
+            "env": {
+                "NODE_ENV": "development"
+            },
+            "runtimeExecutable": "C:/Users/Administrator/pwsh74/pwsh.exe",
+            "runtimeArgs": ["-NoLogo", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", "node"]
+        },
+        {
+            "name": "PowerShell: 自定义命令",
+            "type": "PowerShell",
+            "request": "launch",
+            "script": "${input:customPowerShellCommand}",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "createTemporaryIntegratedConsole": false,
+            "args": [],
+            "powerShellAdditionalExePaths": {
+                "PowerShell 7 (Portable)": "C:/Users/Administrator/pwsh74/pwsh.exe"
+            }
+        }
+    ],
+    "inputs": [
+        {
+            "id": "customPowerShellCommand",
+            "description": "输入要执行的 PowerShell 命令",
+            "type": "promptString",
+            "default": "Get-Location"
+        }
+    ]
+}

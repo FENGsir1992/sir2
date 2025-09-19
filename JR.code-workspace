@@ -1,0 +1,46 @@
+{
+	"folders": [
+		{
+			"name": "前端项目",
+			"path": "."
+		},
+		{
+			"name": "后端项目", 
+			"path": "./backend"
+		}
+	],
+	"settings": {
+		"terminal.integrated.defaultProfile.windows": "PowerShell 7 (Portable)",
+		"terminal.integrated.automationProfile.windows": {
+			"path": "C:/Users/Administrator/pwsh74/pwsh.exe",
+			"args": ["-NoLogo", "-NoProfile", "-ExecutionPolicy", "Bypass"]
+		},
+		"terminal.integrated.profiles.windows": {
+			"PowerShell 7 (Portable)": {
+				"path": "C:/Users/Administrator/pwsh74/pwsh.exe",
+				"args": ["-NoLogo", "-NoProfile", "-ExecutionPolicy", "Bypass"]
+			}
+		},
+		"terminal.external.windowsExec": "C:/Users/Administrator/pwsh74/pwsh.exe",
+		"terminal.integrated.automationShell.windows": "C:/Users/Administrator/pwsh74/pwsh.exe",
+		"terminal.integrated.env.windows": {
+			"SHELL": "C:/Users/Administrator/pwsh74/pwsh.exe",
+			"PSExecutionPolicyPreference": "Bypass"
+		},
+		"powershell.powerShellDefaultVersion": "PowerShell 7 (Portable)",
+		"powershell.powerShellAdditionalExePaths": {
+			"PowerShell 7 (Portable)": "C:/Users/Administrator/pwsh74/pwsh.exe"
+		},
+		"npm.terminal": "PowerShell 7 (Portable)",
+		"task.autoDetect": "off",
+		"task.saveBeforeRun": "always"
+	},
+	"extensions": {
+		"recommendations": [
+			"ms-vscode.powershell",
+			"ms-vscode.vscode-json",
+			"bradlc.vscode-tailwindcss",
+			"esbenp.prettier-vscode"
+		]
+	}
+}

@@ -4,6 +4,7 @@ logs/
 *.log
 *.tgz
 .env.local
+.env
 .env.*.local
 backend/data/
 backend/logs/

@@ -17,10 +17,10 @@ export default {
         dividerWeight: "1px", 
         disabledOpacity: 0.45, 
         fontSize: {
-          tiny: "0.75rem",   // 12px
-          small: "0.875rem", // 14px
-          medium: "0.9375rem", // 15px
-          large: "1.125rem", // 18px
+          tiny: "0.75rem",
+          small: "0.875rem",
+          medium: "0.9375rem",
+          large: "1.125rem",
         },
         lineHeight: {
           tiny: "1rem", 
@@ -43,19 +43,19 @@ export default {
         light: {
           colors: {
             primary: {
-              50: "#e6f5ea",
-              100: "#ccebd5",
-              200: "#99d7ab",
-              300: "#66c382",
-              400: "#33af58",
-              500: "#009b2e",
-              600: "#007c25",
-              700: "#005d1c",
-              800: "#003e12",
-              900: "#001f09",
-              DEFAULT: "#009b2e",
-              foreground: "#ffffff"
-            },
+              50: "#e6f1fe",
+              100: "#cce3fd",
+              200: "#99c7fb",
+              300: "#66aaf9",
+              400: "#338ef7",
+              500: "#006FEE",
+              600: "#005bc4",
+              700: "#004493",
+              800: "#002e62",
+              900: "#001731",
+              DEFAULT: "#006FEE",
+              foreground: "#fff"
+            }
           }
         }
       }

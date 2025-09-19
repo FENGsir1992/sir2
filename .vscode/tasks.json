@@ -1,0 +1,350 @@
+{
+    "version": "2.0.0",
+    "options": {
+        "shell": {
+            "executable": "C:/Users/Administrator/pwsh74/pwsh.exe",
+            "args": ["-NoLogo", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command"]
+        },
+        "env": {
+            "SHELL": "C:/Users/Administrator/pwsh74/pwsh.exe"
+        }
+    },
+    "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+    },
+    "tasks": [
+        {
+            "label": "Frontend: Install Dependencies",
+            "type": "shell",
+            "command": "npm install",
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "options": {
+                "shell": {
+                    "executable": "C:/Users/Administrator/pwsh74/pwsh.exe",
+                    "args": ["-NoLogo", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command"]
+                },
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            "label": "Frontend: Start Development Server",
+            "type": "shell",
+            "command": "npm run dev",
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "options": {
+                "shell": {
+                    "executable": "C:/Users/Administrator/pwsh74/pwsh.exe",
+                    "args": ["-NoLogo", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command"]
+                },
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            "label": "Frontend: Build Project",
+            "type": "shell",
+            "command": "npm run build",
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "options": {
+                "shell": {
+                    "executable": "C:/Users/Administrator/pwsh74/pwsh.exe",
+                    "args": ["-NoLogo", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command"]
+                },
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            "label": "Frontend: Preview Build",
+            "type": "shell",
+            "command": "npm run preview",
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "options": {
+                "shell": {
+                    "executable": "C:/Users/Administrator/pwsh74/pwsh.exe",
+                    "args": ["-NoLogo", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command"]
+                },
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            "label": "Backend: Install Dependencies",
+            "type": "shell",
+            "command": "npm install",
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "options": {
+                "shell": {
+                    "executable": "C:/Users/Administrator/pwsh74/pwsh.exe",
+                    "args": ["-NoLogo", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command"]
+                },
+                "cwd": "${workspaceFolder}/backend"
+            }
+        },
+        {
+            "label": "Backend: Start Development Server",
+            "type": "shell",
+            "command": "npm run dev",
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "options": {
+                "shell": {
+                    "executable": "C:/Users/Administrator/pwsh74/pwsh.exe",
+                    "args": ["-NoLogo", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command"]
+                },
+                "cwd": "${workspaceFolder}/backend"
+            }
+        },
+        {
+            "label": "Backend: Build Project",
+            "type": "shell",
+            "command": "npm run build",
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "options": {
+                "shell": {
+                    "executable": "C:/Users/Administrator/pwsh74/pwsh.exe",
+                    "args": ["-NoLogo", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command"]
+                },
+                "cwd": "${workspaceFolder}/backend"
+            }
+        },
+        {
+            "label": "Backend: Start Production Server",
+            "type": "shell",
+            "command": "npm start",
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "options": {
+                "shell": {
+                    "executable": "C:/Users/Administrator/pwsh74/pwsh.exe",
+                    "args": ["-NoLogo", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command"]
+                },
+                "cwd": "${workspaceFolder}/backend"
+            }
+        },
+        {
+            "label": "Backend: Run Tests",
+            "type": "shell",
+            "command": "npm test",
+            "group": "test",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "options": {
+                "shell": {
+                    "executable": "C:/Users/Administrator/pwsh74/pwsh.exe",
+                    "args": ["-NoLogo", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command"]
+                },
+                "cwd": "${workspaceFolder}/backend"
+            }
+        },
+        {
+            "label": "Backend: Database Migration",
+            "type": "shell",
+            "command": "npm run migrate",
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "options": {
+                "shell": {
+                    "executable": "C:/Users/Administrator/pwsh74/pwsh.exe",
+                    "args": ["-NoLogo", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command"]
+                },
+                "cwd": "${workspaceFolder}/backend"
+            }
+        },
+        {
+            "label": "Backend: API Test",
+            "type": "shell",
+            "command": "npm run test-api",
+            "group": "test",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "options": {
+                "shell": {
+                    "executable": "C:/Users/Administrator/pwsh74/pwsh.exe",
+                    "args": ["-NoLogo", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command"]
+                },
+                "cwd": "${workspaceFolder}/backend"
+            }
+        },
+        {
+            "label": "PowerShell: Execute Custom Command",
+            "type": "shell",
+            "command": "${input:customCommand}",
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "options": {
+                "shell": {
+                    "executable": "C:/Users/Administrator/pwsh74/pwsh.exe",
+                    "args": ["-NoLogo", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command"]
+                }
+            }
+        },
+        {
+            "label": "PowerShell: Execute Custom Command in Backend",
+            "type": "shell",
+            "command": "${input:customCommand}",
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "options": {
+                "shell": {
+                    "executable": "C:/Users/Administrator/pwsh74/pwsh.exe",
+                    "args": ["-NoLogo", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command"]
+                },
+                "cwd": "${workspaceFolder}/backend"
+            }
+        },
+        {
+            "label": "Backend: Seed Database",
+            "type": "shell",
+            "command": "npm run seed",
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "options": {
+                "shell": {
+                    "executable": "C:/Users/Administrator/pwsh74/pwsh.exe",
+                    "args": ["-NoLogo", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command"]
+                },
+                "cwd": "${workspaceFolder}/backend"
+            }
+        },
+        {
+            "label": "Backend: Check Admin",
+            "type": "shell",
+            "command": "npm run check-admin",
+            "group": "test",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "options": {
+                "shell": {
+                    "executable": "C:/Users/Administrator/pwsh74/pwsh.exe",
+                    "args": ["-NoLogo", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command"]
+                },
+                "cwd": "${workspaceFolder}/backend"
+            }
+        },
+        {
+            "label": "Backend: Migrate Media",
+            "type": "shell",
+            "command": "npm run migrate-media",
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "options": {
+                "shell": {
+                    "executable": "C:/Users/Administrator/pwsh74/pwsh.exe",
+                    "args": ["-NoLogo", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command"]
+                },
+                "cwd": "${workspaceFolder}/backend"
+            }
+        },
+        {
+            "label": "Frontend: Lint Code",
+            "type": "shell",
+            "command": "npm run lint",
+            "group": "test",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "options": {
+                "shell": {
+                    "executable": "C:/Users/Administrator/pwsh74/pwsh.exe",
+                    "args": ["-NoLogo", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command"]
+                },
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            "label": "PowerShell: Verify Configuration",
+            "type": "shell",
+            "command": ".vscode/verify-powershell.ps1 -Detailed -TestCommands",
+            "group": "test",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "options": {
+                "shell": {
+                    "executable": "C:/Users/Administrator/pwsh74/pwsh.exe",
+                    "args": ["-NoLogo", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command"]
+                }
+            }
+        },
+        {
+            "label": "PowerShell: Setup Environment",
+            "type": "shell",
+            "command": ".vscode/setup-powershell-env.ps1",
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "options": {
+                "shell": {
+                    "executable": "C:/Users/Administrator/pwsh74/pwsh.exe",
+                    "args": ["-NoLogo", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command"]
+                }
+            }
+        }
+    ],
+    "inputs": [
+        {
+            "id": "customCommand",
+            "description": "输入要执行的 PowerShell 命令",
+            "default": "Get-Location",
+            "type": "promptString"
+        }
+    ]
+}
