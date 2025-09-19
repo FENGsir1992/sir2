@@ -4,7 +4,6 @@ logs/
 *.log
 *.tgz
 .env.local
-.env
 .env.*.local
 backend/data/
 backend/logs/
@@ -14,3 +13,5 @@ backend/env.local
 cloudflared.exe
 cpolar.exe
 ngrok.exe
+.env
+backend/.env
