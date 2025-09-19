@@ -16,6 +16,18 @@ log(){ echo -e "[\033[32mINFO\033[0m] $*"; }
 warn(){ echo -e "[\033[33mWARN\033[0m] $*"; }
 err(){ echo -e "[\033[31mERR \033[0m] $*" >&2; }
 
+# 可选通知（POST JSON 到 JR_NOTIFY_URL）
+NOTIFY_URL="${JR_NOTIFY_URL:-}"
+notify(){
+  local status="$1"; shift || true
+  local message="$*"
+  if [ -n "$NOTIFY_URL" ]; then
+    curl -s -m 5 -H 'Content-Type: application/json' -X POST \
+      -d "{\"status\":\"${status}\",\"release\":\"${REL_DIR}\",\"time\":\"$(date -Iseconds)\",\"message\":\"${message}\"}" \
+      "$NOTIFY_URL" >/dev/null 2>&1 || true
+  fi
+}
+
 # 0) 如遇镜像 404，可临时启用官方源
 export npm_config_registry=${npm_config_registry:-https://registry.npmjs.org}
 
@@ -125,6 +137,7 @@ else
     pm2 restart jr-backend --update-env --cwd "${APP_DIR}/current/backend" || true
     nginx -t && nginx -s reload || true
   fi
+  notify "rolled_back" "local health failed; rolled back to previous"
   err "Deploy aborted due to failed health check"
   exit 1
 fi
@@ -136,10 +149,19 @@ until domain_health_ok; do
   if [ $retry -le 0 ]; then break; fi
   sleep 2
 done
+final_status="success"
 if domain_health_ok; then
   log "Domain health 200"
 else
-  warn "Domain health failed; keeping current but reporting failure"
+  warn "Domain health failed; start rollback to previous"
+  if [ -n "$prev_target" ] && [ -d "$prev_target" ]; then
+    ln -sfn "$prev_target" "${APP_DIR}/current"
+    pm2 restart jr-backend --update-env --cwd "${APP_DIR}/current/backend" || true
+    nginx -t && nginx -s reload || true
+    final_status="rolled_back"
+  else
+    final_status="failed"
+  fi
 fi
 
 # 9) 自动化验证脚本（非强制）
@@ -153,4 +175,7 @@ fi
 cd "${RELEASES_DIR}" && ls -1tr | head -n -5 | xargs -r rm -rf
 
 log "Deploy done: ${REL_DIR}"
+
+# 通知发布结果
+notify "$final_status" "deploy finished with status=$final_status"
 
