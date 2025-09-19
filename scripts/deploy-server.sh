@@ -24,6 +24,13 @@ health_ok(){
   code=$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:3001/health || echo 000)
   [[ "$code" == "200" ]]
 }
+domain_health_ok(){
+  local url
+  url=${HEALTH_URL:-https://www.jiruikeji.top/health}
+  local code
+  code=$(curl -sk -o /dev/null -w '%{http_code}' "$url" || echo 000)
+  [[ "$code" == "200" ]]
+}
 
 # 1) 拉取最新代码（首次采用稀疏克隆并排除大视频）
 if [ ! -d "${REPO_DIR}/.git" ]; then
@@ -102,6 +109,19 @@ else
   fi
   err "Deploy aborted due to failed health check"
   exit 1
+fi
+
+# 8.1) 域名健康门禁（等待 Nginx/证书/反代稳定）
+retry=60
+until domain_health_ok; do
+  retry=$((retry-1))
+  if [ $retry -le 0 ]; then break; fi
+  sleep 2
+done
+if domain_health_ok; then
+  log "Domain health 200"
+else
+  warn "Domain health failed; keeping current but reporting failure"
 fi
 
 # 9) 自动化验证脚本（非强制）
