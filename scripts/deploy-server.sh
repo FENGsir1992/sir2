@@ -51,14 +51,17 @@ else
   git reset --hard origin/main
 fi
 
-# 2) 构建前端
+# 2) 构建前端（先清理任何遗留的 script-shell 配置以防环境污染）
+sed -i '/^script-shell=/d' .npmrc backend/.npmrc 2>/dev/null || true
+sed -i '/^script-shell=/d' ~/.npmrc /etc/npmrc 2>/dev/null || true
+
 log "Build frontend"
 npm ci
 npm run build
 
-# 3) 构建后端（安装生产依赖）
+# 3) 构建后端（完整依赖用于通过类型检查/编译，稍后再精简）
 cd "${REPO_DIR}/backend"
-npm ci --omit=dev
+npm ci
 npm run build
 cd - >/dev/null
 
@@ -68,6 +71,9 @@ mkdir -p "${REL_DIR}/backend"
 cp -a "${REPO_DIR}/dist"                         "${REL_DIR}/dist"
 cp -a "${REPO_DIR}/backend/dist"                 "${REL_DIR}/backend/dist"
 cp -a "${REPO_DIR}/backend/node_modules"         "${REL_DIR}/backend/node_modules"
+# 拷贝 package.json/lock 以便在线上目录执行精简
+cp -a "${REPO_DIR}/backend/package.json"         "${REL_DIR}/backend/package.json"
+cp -a "${REPO_DIR}/backend/package-lock.json"    "${REL_DIR}/backend/package-lock.json" 2>/dev/null || true
 
 # 同步脚本（用于自动化验证等）
 if [ -d "${REPO_DIR}/scripts" ]; then
@@ -95,6 +101,12 @@ pm2 start "${APP_DIR}/current/backend/dist/server.js" \
   --cwd "${APP_DIR}/current/backend" \
 || pm2 restart jr-backend --update-env --cwd "${APP_DIR}/current/backend"
 nginx -t && nginx -s reload || true
+
+# 7.1) 精简线上依赖（仅运行时依赖），不影响已完成的构建
+(
+  cd "${APP_DIR}/current/backend" && \
+  npm prune --omit=dev --no-audit --prefer-offline || true
+) >/dev/null 2>&1 || true
 
 # 8) 健康门禁：失败则回滚到上一个版本
 retry=30
