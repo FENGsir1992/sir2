@@ -115,6 +115,7 @@ async function apiRequest<T = any>(
 ): Promise<ApiResponse<T>> {
   const url = `${API_BASE_URL}${endpoint}`;
   const token = getToken();
+  const isAuthPath = endpoint === '/auth/login' || endpoint === '/auth/register';
   
   // 对于GET请求，检查是否有相同的请求正在进行
   const requestKey = generateRequestKey(endpoint, options);
@@ -130,7 +131,8 @@ async function apiRequest<T = any>(
   const defaultOptions: RequestInit = {
     headers: {
       'Content-Type': 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      // 登录/注册不携带旧的 Authorization，避免无效/过期 token 干扰
+      ...(token && !isAuthPath ? { Authorization: `Bearer ${token}` } : {}),
     },
     // 根据环境调整超时时间
     signal: createTimeoutSignal(import.meta.env.VITE_VPN_MODE === 'true' ? 30000 : 10000),
@@ -144,6 +146,11 @@ async function apiRequest<T = any>(
       ...options.headers,
     },
   };
+
+  // 兜底：如果调用方手动传了 Authorization，但这是登录/注册端点，则移除之
+  if (isAuthPath && (config.headers as any)?.Authorization) {
+    try { delete (config.headers as any).Authorization; } catch {}
+  }
 
   // 创建请求Promise
   const requestPromise = (async (): Promise<ApiResponse<T>> => {
