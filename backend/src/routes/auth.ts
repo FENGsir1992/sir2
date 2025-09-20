@@ -13,6 +13,18 @@ import { asyncHandler } from '../middleware/error-handler.js';
 
 const router = Router();
 
+// 登录/注册端点：忽略任何随请求携带的旧 Authorization 头，避免无效/过期 token 干扰
+router.use(['/login', '/register'], (req, _res, next) => {
+  try {
+    if (req.headers && typeof req.headers === 'object') {
+      if ((req.headers as any)['authorization']) {
+        try { delete (req.headers as any)['authorization']; } catch {}
+      }
+    }
+  } catch {}
+  next();
+});
+
 // 统一从配置读取
 const JWT_EXPIRES_IN = getJwtExpiresIn();
 
