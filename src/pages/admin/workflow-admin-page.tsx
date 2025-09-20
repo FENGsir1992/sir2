@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Card, CardBody, Input, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Table, TableHeader, TableBody, TableColumn, TableRow, TableCell, Chip, Pagination, Spinner, Select, SelectItem, Checkbox } from "@heroui/react";
+import { Button, Card, CardBody, Input, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Table, TableHeader, TableBody, TableColumn, TableRow, TableCell, Chip, Pagination, Spinner, Select, SelectItem, Checkbox, Progress } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { adminWorkflowsApi } from "../../utils/admin-api-client";
 import { localMediaStore } from "../../utils/local-media-store";
@@ -28,6 +28,12 @@ export default function WorkflowAdminPage() {
   const videoPickerRef = React.useRef<HTMLInputElement | null>(null);
   const attachmentPickerRef = React.useRef<HTMLInputElement | null>(null);
   const [lastAttachmentName, setLastAttachmentName] = React.useState<string>("");
+
+  // 上传进度与状态
+  const [videoUploading, setVideoUploading] = React.useState(false);
+  const [videoUploadPercent, setVideoUploadPercent] = React.useState(0);
+  const [attachmentUploading, setAttachmentUploading] = React.useState(false);
+  const [attachmentUploadPercent, setAttachmentUploadPercent] = React.useState(0);
 
   const categories = React.useMemo(() => (
     [
@@ -531,11 +537,16 @@ export default function WorkflowAdminPage() {
                 <div>
                   <div className="text-sm font-medium mb-2">上传本地视频（暂存到项目空间 /uploads/videos）</div>
                   <div className="flex items-center gap-3">
-                    <Button size="sm" variant="flat" startContent={<Icon icon="lucide:upload" />} onPress={() => videoPickerRef.current?.click()}>选择视频文件</Button>
+                    <Button size="sm" variant="flat" isDisabled={videoUploading} startContent={<Icon icon="lucide:upload" />} onPress={() => videoPickerRef.current?.click()}>选择视频文件</Button>
                     {localVideoFile && (
                       <span className="text-xs text-gray-500 truncate max-w-[220px]">{localVideoFile.name}</span>
                     )}
                   </div>
+                  {videoUploading && (
+                    <div className="mt-2">
+                      <Progress aria-label="上传视频进度" value={videoUploadPercent} color="primary" showValueLabel className="max-w-md" />
+                    </div>
+                  )}
                 <input ref={videoPickerRef} className="hidden" type="file" accept="video/*" onChange={(e) => {
                   const file = e.target.files && e.target.files[0];
                   if (file) {
@@ -544,12 +555,17 @@ export default function WorkflowAdminPage() {
                     (async () => {
                       try {
                         const { adminMediaApi } = await import('../../utils/admin-api-client');
-                        const resp = await adminMediaApi.uploadPreviewVideo(file);
+                        setVideoUploading(true);
+                        setVideoUploadPercent(0);
+                        const resp = await adminMediaApi.uploadPreviewVideo(file, (p) => setVideoUploadPercent(p.percent));
                         if ((resp as any).success && (resp as any).data?.url) {
                           setEditing((s) => ({ ...(s as any), previewVideo: (resp as any).data.url }));
                         }
                       } catch (err) {
                         console.error('上传预览视频失败', err);
+                      } finally {
+                        setVideoUploading(false);
+                        try { if (e.currentTarget) e.currentTarget.value = ''; } catch {}
                       }
                     })();
                   }
@@ -604,11 +620,16 @@ export default function WorkflowAdminPage() {
                 <div>
                   <div className="text-sm font-medium mb-2">上传附件压缩包（保存到 /uploads/files）</div>
                   <div className="flex items-center gap-3">
-                    <Button size="sm" variant="flat" startContent={<Icon icon="lucide:archive" />} onPress={() => attachmentPickerRef.current?.click()}>选择压缩包</Button>
+                    <Button size="sm" variant="flat" isDisabled={attachmentUploading} startContent={<Icon icon="lucide:archive" />} onPress={() => attachmentPickerRef.current?.click()}>选择压缩包</Button>
                     {lastAttachmentName && (
                       <span className="text-xs text-gray-500 truncate max-w-[220px]">{lastAttachmentName}</span>
                     )}
                   </div>
+                  {attachmentUploading && (
+                    <div className="mt-2">
+                      <Progress aria-label="上传附件进度" value={attachmentUploadPercent} color="primary" showValueLabel className="max-w-md" />
+                    </div>
+                  )}
                   <input
                     ref={attachmentPickerRef}
                     className="hidden"
@@ -619,7 +640,9 @@ export default function WorkflowAdminPage() {
                       if (!file) return;
                       try {
                         const { adminMediaApi } = await import('../../utils/admin-api-client');
-                        const resp = await adminMediaApi.uploadAttachmentFile(file);
+                        setAttachmentUploading(true);
+                        setAttachmentUploadPercent(0);
+                        const resp = await adminMediaApi.uploadAttachmentFile(file, (p) => setAttachmentUploadPercent(p.percent));
                         if ((resp as any).success && (resp as any).data?.url) {
                           setEditing((s) => {
                             const prev = ((s as any)?.attachments || []) as string[];
@@ -630,6 +653,7 @@ export default function WorkflowAdminPage() {
                       } catch (err) {
                         console.error('上传附件失败', err);
                       } finally {
+                        setAttachmentUploading(false);
                         if (e.currentTarget) e.currentTarget.value = '';
                       }
                     }}
@@ -661,7 +685,7 @@ export default function WorkflowAdminPage() {
               cleanupEditorState();
               setEditorOpen(false);
             }}>取消</Button>
-            <Button color="primary" onPress={handleSave} startContent={<Icon icon="lucide:save" />}>保存</Button>
+            <Button color="primary" isDisabled={videoUploading || attachmentUploading || loading} onPress={handleSave} startContent={<Icon icon="lucide:save" />}>保存</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

@@ -61,6 +61,57 @@ function getToken(): string | null {
   }
 }
 
+// 基于 XMLHttpRequest 的上传工具，支持上传进度回调
+function xhrUpload(
+  url: string,
+  formData: FormData,
+  token: string,
+  onProgress?: (progress: { loaded: number; total: number; percent: number }) => void
+): Promise<any> {
+  return new Promise((resolve, reject) => {
+    try {
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', url, true);
+      if (token) {
+        xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+      }
+
+      if (xhr.upload && typeof onProgress === 'function') {
+        xhr.upload.onprogress = (event) => {
+          if (event.lengthComputable) {
+            const percent = Math.round((event.loaded / event.total) * 100);
+            try { onProgress({ loaded: event.loaded, total: event.total, percent }); } catch {}
+          }
+        };
+      }
+
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4) {
+          const status = xhr.status;
+          let data: any = undefined;
+          try {
+            data = xhr.responseText ? JSON.parse(xhr.responseText) : undefined;
+          } catch (e) {
+            // 忽略解析失败，交由状态码处理
+          }
+          if (status >= 200 && status < 300) {
+            resolve(data ?? { success: true });
+          } else {
+            const msg = (data && (data.error || data.message)) || `HTTP ${status}`;
+            reject(new Error(msg));
+          }
+        }
+      };
+
+      xhr.onerror = () => reject(new Error('网络错误'));
+      xhr.onabort = () => reject(new Error('请求已中断'));
+      xhr.send(formData);
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+
 // 通用管理员API请求函数
 async function adminApiRequest<T = any>(
   endpoint: string,
@@ -138,7 +189,10 @@ async function adminApiRequest<T = any>(
 // 媒体文件管理API
 export const adminMediaApi = {
   // 上传预览视频
-  uploadPreviewVideo: async (file: File) => {
+  uploadPreviewVideo: async (
+    file: File,
+    onProgress?: (progress: { loaded: number; total: number; percent: number }) => void
+  ) => {
     const formData = new FormData();
     formData.append('video', file);
 
@@ -148,23 +202,21 @@ export const adminMediaApi = {
     }
 
     const url = `${ADMIN_API_BASE_URL}/media/video/preview`;
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: formData,
-    });
-
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.error || data.message || `HTTP ${response.status}`);
+    // 若提供进度回调，则使用XHR；否则回退为fetch
+    if (typeof onProgress === 'function') {
+      return xhrUpload(url, formData, token, onProgress);
     }
+    const response = await fetch(url, { method: 'POST', headers: { Authorization: `Bearer ${token}` }, body: formData });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || data.message || `HTTP ${response.status}`);
     return data;
   },
 
   // 上传附件压缩包/通用文件（保存到 backend/uploads/files）
-  uploadAttachmentFile: async (file: File) => {
+  uploadAttachmentFile: async (
+    file: File,
+    onProgress?: (progress: { loaded: number; total: number; percent: number }) => void
+  ) => {
     const formData = new FormData();
     formData.append('file', file);
 
@@ -174,18 +226,12 @@ export const adminMediaApi = {
     }
 
     const url = `${ADMIN_API_BASE_URL}/media/file/attachment`;
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: formData,
-    });
-
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.error || data.message || `HTTP ${response.status}`);
+    if (typeof onProgress === 'function') {
+      return xhrUpload(url, formData, token, onProgress);
     }
+    const response = await fetch(url, { method: 'POST', headers: { Authorization: `Bearer ${token}` }, body: formData });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || data.message || `HTTP ${response.status}`);
     return data;
   },
 
