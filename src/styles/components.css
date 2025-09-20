@@ -147,7 +147,8 @@
   position: relative;
   width: 100%;
   height: auto; /* 高度跟随内部按比例渲染 */
-  background: rgba(139, 92, 246, 0.18);
+  /* 去除外层淡紫色背景，避免在封面未加载前出现紫色底 */
+  background: transparent;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
   padding: 2px;

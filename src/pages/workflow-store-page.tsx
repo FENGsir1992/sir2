@@ -100,6 +100,11 @@ export function StoreCard({ workflow, onFavoriteChange }: { workflow: Workflow; 
   //   }
   //   return "/TX.jpg";
   // }, [workflow.cover]);
+  // 新：确保首屏显示封面（没有封面时使用默认占位）
+  const coverSrc = React.useMemo(() => {
+    const src = (workflow.cover && String(workflow.cover).trim()) ? (resolveMediaUrl(workflow.cover) || workflow.cover) : "/TX.jpg";
+    return src || "/TX.jpg";
+  }, [workflow.cover]);
 
   // 备份版本不包含自动缩略图与持久化逻辑
 
@@ -180,17 +185,15 @@ export function StoreCard({ workflow, onFavoriteChange }: { workflow: Workflow; 
           onClick={handleGetWorkflow}
           style={{ cursor: 'pointer' }}
         >
-          {workflow.cover ? (
-            <img
-              src={resolveMediaUrl(workflow.cover) || workflow.cover}
-              alt={workflow.title}
-              className="wz-store-card__img"
-              loading="eager"
-              decoding="sync"
-              fetchPriority="high"
-              onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
-            />
-          ) : null}
+          <img
+            src={coverSrc}
+            alt={workflow.title}
+            className="wz-store-card__img"
+            loading="eager"
+            decoding="sync"
+            fetchPriority="high"
+            onError={(e) => { try { (e.currentTarget as HTMLImageElement).src = '/TX.jpg'; } catch {} }}
+          />
           {previewUrl ? (
             <video
               ref={videoRef}
