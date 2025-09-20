@@ -185,7 +185,9 @@ export function StoreCard({ workflow, onFavoriteChange }: { workflow: Workflow; 
               src={resolveMediaUrl(workflow.cover) || workflow.cover}
               alt={workflow.title}
               className="wz-store-card__img"
-              
+              loading="eager"
+              decoding="sync"
+              fetchPriority="high"
               onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
             />
           ) : null}

@@ -158,7 +158,8 @@
   width: 100%;
   /* 强制固定为 1920x1080（16:9）比例 */
   aspect-ratio: 16/9;
-  background: linear-gradient(135deg, #d8b4fe 0%, #f0abfc 50%, #f9a8d4 100%);
+  /* 去除紫色渐变背景，避免首屏看到占位色块 */
+  background: transparent;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   overflow: hidden;
