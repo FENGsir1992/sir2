@@ -650,6 +650,9 @@ router.post('/', requireAuth, async (req: AuthRequest, res: Response) => {
     const movedGallery = Array.isArray(workflowData.gallery)
       ? workflowData.gallery.map((u) => moveIfLocal(u, code, 'images') || u)
       : [];
+    const movedAttachments = Array.isArray((workflowData as any).attachments)
+      ? (workflowData as any).attachments.map((u: string) => moveIfLocal(u, code, 'files') || u)
+      : [];
 
     const newWorkflow = {
       id: workflowId,
@@ -668,7 +671,7 @@ router.post('/', requireAuth, async (req: AuthRequest, res: Response) => {
       previewVideo: movedPreview || workflowData.previewVideo || '',
       demoVideo: movedDemo || workflowData.demoVideo || '',
       gallery: JSON.stringify(movedGallery),
-      attachments: JSON.stringify([]),
+      attachments: JSON.stringify(movedAttachments),
       category: workflowData.category || 'general',
       subcategory: workflowData.subcategory || '',
       tags: JSON.stringify(workflowData.tags || []),
