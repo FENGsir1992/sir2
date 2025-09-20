@@ -179,14 +179,14 @@ function convertToAppError(error: Error): AppError {
     return new AppError('请求超时', 408, ErrorType.EXTERNAL_API, true, 'REQUEST_TIMEOUT');
   }
 
-  // 默认内部错误
+  // 默认内部错误（保留原始信息到 details，响应仍返回通用文案）
   return new AppError(
     process.env.NODE_ENV === 'production' ? '服务器内部错误' : error.message,
     500,
     ErrorType.INTERNAL,
     false,
     'INTERNAL_SERVER_ERROR',
-    process.env.NODE_ENV !== 'production' ? { stack: error.stack } : undefined
+    { originalMessage: error.message, originalStack: error.stack }
   );
 }
 
