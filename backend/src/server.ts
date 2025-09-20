@@ -27,6 +27,7 @@ import userRoutes from './routes/users.js';
 import wechatPayRoutes from './routes/wechatpay.js';
 import alipayRoutes from './routes/alipay.js';
 import { closeOverdueOrders } from './utils/pay-common.js';
+import { ensureAdminUser } from './utils/ensure-admin.js';
 
 // 统一定位到 backend/uploads（无论在 src 还是 dist 运行）
 // 基于工作目录推断项目根，避免 import.meta 依赖
@@ -337,6 +338,9 @@ async function startServer() {
     console.log('🔄 正在初始化数据库...');
     await initDatabase();
     console.log('✅ 数据库初始化完成');
+    
+    // 自愈：确保管理员账户存在/可用（可通过 ADMIN_* 环境变量控制）
+    try { await ensureAdminUser(); } catch {}
     
     // 预热缓存
     console.log('🔄 开始缓存预热...');
