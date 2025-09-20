@@ -14,18 +14,16 @@ function ensureDir(p: string) {
   if (!fs.existsSync(p)) fs.mkdirSync(p, { recursive: true });
 }
 
-// 更健壮的后端根目录解析（兼容 src 与 dist 运行）
-// 基于工作目录推断，避免 import.meta 依赖
+// 更健壮的后端根目录解析（兼容 src/dist/软链）
+// 放宽条件：命中第一个包含 uploads 的候选目录
 const BACKEND_ROOT_CANDIDATES = [
   path.resolve(process.cwd(), 'backend'),
-  path.resolve(process.cwd())
+  path.resolve(process.cwd()),
+  path.resolve(process.cwd(), '..'),
+  path.resolve(process.cwd(), '..', 'backend')
 ];
 const PROJECT_ROOT = BACKEND_ROOT_CANDIDATES.find((p) => {
-  try { 
-    const uploadsPath = path.join(p, 'uploads');
-    const isRealBackendRoot = fs.existsSync(uploadsPath) && fs.existsSync(path.join(p, 'package.json'));
-    return isRealBackendRoot;
-  } catch { return false; }
+  try { return fs.existsSync(path.join(p, 'uploads')); } catch { return false; }
 }) || path.resolve(process.cwd(), 'backend');
 const UPLOAD_ROOT = path.join(PROJECT_ROOT, 'uploads');
 
@@ -151,11 +149,23 @@ function moveIfLocal(inputUrl: string | undefined, code: number, kind: 'images' 
     const filename = path.basename(inputUrl);
     // 兼容 Windows：去掉前导斜杠再拼接到项目根目录
     const relativeFromRoot = inputUrl.replace(/^\/+/, '');
-    const sourceAbs = path.join(PROJECT_ROOT, relativeFromRoot);
+    let sourceAbs = path.join(PROJECT_ROOT, relativeFromRoot);
+    if (!fs.existsSync(sourceAbs)) {
+      const alt1 = path.join(PROJECT_ROOT, 'backend', relativeFromRoot);
+      if (fs.existsSync(alt1)) sourceAbs = alt1;
+    }
+    if (!fs.existsSync(sourceAbs)) {
+      const alt2 = path.resolve(process.cwd(), relativeFromRoot);
+      if (fs.existsSync(alt2)) sourceAbs = alt2;
+    }
     const targetDir = getWorkflowDirByCode(code);
     const targetAbs = path.join(targetDir, kind, filename);
     ensureDir(path.dirname(targetAbs));
     if (fs.existsSync(sourceAbs)) {
+      // 同路径保护
+      if (path.resolve(sourceAbs) === path.resolve(targetAbs)) {
+        return toPublicUrl(targetAbs);
+      }
       // 确保覆盖目标文件
       try { if (fs.existsSync(targetAbs)) fs.rmSync(targetAbs, { force: true }); } catch {}
       fs.renameSync(sourceAbs, targetAbs);
