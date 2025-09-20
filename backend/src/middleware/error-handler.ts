@@ -135,6 +135,14 @@ export function errorHandler(
 
 // 将普通错误转换为AppError
 function convertToAppError(error: Error): AppError {
+  // body-parser / express.json 的 JSON 解析错误
+  // 常见特征：error.name === 'SyntaxError' 或 (error as any).type === 'entity.parse.failed'
+  if ((error as any)?.type === 'entity.parse.failed' || error.name === 'SyntaxError') {
+    return new ValidationError('请求体JSON格式错误', {
+      originalMessage: error.message
+    });
+  }
+
   // JWT错误
   if (error.name === 'JsonWebTokenError' || error.name === 'TokenExpiredError') {
     return new AuthenticationError('认证token无效或已过期');
