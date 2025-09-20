@@ -7,17 +7,17 @@ import { requireAdminAuth } from '../../middleware/admin-auth.js';
 import { SYSTEM_CONSTANTS } from '../../config/constants.js';
 
 const router = Router();
-// 统一定位到 backend/uploads（无论在 src 还是 dist 运行）
-// 基于工作目录推断，避免 import.meta 依赖
+// 统一定位到 backend/uploads（兼容 src/dist 与软链部署）
+// 放宽判定条件：命中第一个包含 uploads 的候选目录即可
 const BACKEND_ROOT_CANDIDATES = [
   path.resolve(process.cwd(), 'backend'),
-  path.resolve(process.cwd())
+  path.resolve(process.cwd()),
+  path.resolve(process.cwd(), '..'),
+  path.resolve(process.cwd(), '..', 'backend')
 ];
 const PROJECT_ROOT = BACKEND_ROOT_CANDIDATES.find((p) => {
-  try { 
-    const uploadsPath = path.join(p, 'uploads');
-    const isRealBackendRoot = fs.existsSync(uploadsPath) && fs.existsSync(path.join(p, 'package.json'));
-    return isRealBackendRoot;
+  try {
+    return fs.existsSync(path.join(p, 'uploads'));
   } catch { return false; }
 }) || path.resolve(process.cwd(), 'backend');
 const UPLOAD_ROOT = path.join(PROJECT_ROOT, 'uploads');
@@ -154,16 +154,31 @@ function moveIfLocal(inputUrl: string | undefined, code: number, kind: 'images' 
 		const filename = path.basename(localUrl);
 		// 兼容 Windows：去掉前导斜杠再拼接到项目目录
 		const relativeFromRoot = localUrl.replace(/^\/+/, '');
-		const sourceAbs = path.join(PROJECT_ROOT, relativeFromRoot);
+    let sourceAbs = path.join(PROJECT_ROOT, relativeFromRoot);
+    if (!fs.existsSync(sourceAbs)) {
+      // 回退1：兼容 PROJECT_ROOT 指向上层目录的情况
+      const alt1 = path.join(PROJECT_ROOT, 'backend', relativeFromRoot);
+      if (fs.existsSync(alt1)) sourceAbs = alt1;
+    }
+    if (!fs.existsSync(sourceAbs)) {
+      // 回退2：兼容历史 dist/cwd 差异
+      const alt2 = path.resolve(process.cwd(), relativeFromRoot);
+      if (fs.existsSync(alt2)) sourceAbs = alt2;
+    }
 		const targetDir = getWorkflowDirByCode(code);
 		const targetAbs = path.join(targetDir, kind, filename);
-		
-		console.log(`📂 源文件: ${sourceAbs}`);
+    console.log(`📂 源文件: ${sourceAbs}`);
 		console.log(`📂 目标文件: ${targetAbs}`);
 		
 		ensureDir(path.dirname(targetAbs));
 		
-		if (fs.existsSync(sourceAbs)) {
+    if (fs.existsSync(sourceAbs)) {
+      // 同路径保护：若源目标一致则直接返回
+      if (path.resolve(sourceAbs) === path.resolve(targetAbs)) {
+        const sameUrl = toPublicUrl(targetAbs);
+        console.log(`ℹ️ 源与目标一致，跳过移动: ${sameUrl}`);
+        return sameUrl;
+      }
 			const fromWorkflowsDir = sourceAbs.replace(/\\/g, '/').includes('/uploads/workflows/');
 			
 			// 覆盖目标文件以达到"覆盖原始文件"的效果

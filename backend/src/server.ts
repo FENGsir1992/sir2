@@ -73,6 +73,9 @@ const app = express();
 const PORT = parseInt(process.env.PORT || '3001', 10);
 
 // 中间件配置
+// 在反向代理（如 Nginx）后运行时，信任第一层代理，
+// 以便 express-rate-limit 能正确识别客户端 IP（消除 X-Forwarded-For 警告）
+app.set('trust proxy', 1);
 app.use(helmet({
   crossOriginEmbedderPolicy: false,
   // 允许跨源获取静态媒体资源（视频/图片），否则会被 CORP 拦截
